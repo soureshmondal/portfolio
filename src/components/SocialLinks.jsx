@@ -7,7 +7,7 @@ import {
 const socialLinks = [
   {
     name: "LinkedIn",
-    url: "https://www.linkedin.com/in/souresh-mondal-999a69284",
+    url: "https://www.linkedin.com/in/souresh-mondal",
     icon: Linkedin,
     displayName: "LinkedIn",
     subText: "Follow me",
