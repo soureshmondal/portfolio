@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from "react";
 import { db, collection } from "../firebase";
 import { getDocs } from "firebase/firestore";
 import PropTypes from "prop-types";
-import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
@@ -16,6 +15,9 @@ import "aos/dist/aos.css";
 import Certificate from "../components/Certificate";
 import { Code, Award, Boxes } from "lucide-react";
 import { PinContainer } from "../components/PinContainer";
+// Import Swiper components and styles
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 // Separate ShowMore/ShowLess button component
 const ToggleButton = ({ onClick, isShowingMore }) => (
@@ -161,6 +163,7 @@ export default function FullWidthTabs() {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [showAllCertificates, setShowAllCertificates] = useState(false);
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(null);
+  const [swiper, setSwiper] = useState(null);
   const isMobile = window.innerWidth < 768;
   const initialItems = isMobile ? 4 : 6;
 
@@ -206,6 +209,9 @@ export default function FullWidthTabs() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    if (swiper) {
+      swiper.slideTo(newValue);
+    }
   };
 
   const toggleShowMore = useCallback((type) => {
@@ -331,158 +337,170 @@ export default function FullWidthTabs() {
           </Tabs>
         </AppBar>
 
-        <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={value}
-          onChangeIndex={setValue}
+        {/* Replace SwipeableViews with Swiper */}
+        <Swiper
+          onSwiper={setSwiper}
+          initialSlide={value}
+          onSlideChange={(swiperInstance) => setValue(swiperInstance.activeIndex)}
+          allowTouchMove={true}
+          className="portfolio-swiper"
         >
-          <TabPanel value={value} index={0} dir={theme.direction}>
-            <div className="container mx-auto flex justify-center items-center overflow-hidden">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-8 h-full">
-                {displayedProjects.map((project, index) => (
-                  <div
-                    key={project.id || index}
-                    data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
-                    data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
-                    className="h-full"
-                  >
-                    <PinContainer
-                      key={index}
-                      title={project.name}
-                      href={project.github || project.demo || "#"}
-                      className="w-full h-full"
+          {/* First Tab - Projects */}
+          <SwiperSlide>
+            <TabPanel value={value} index={0} dir={theme.direction}>
+              <div className="container mx-auto flex justify-center items-center overflow-hidden">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-8 h-full">
+                  {displayedProjects.map((project, index) => (
+                    <div
+                      key={project.id || index}
+                      data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
+                      data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
+                      className="h-full"
                     >
-                      <CardProject
-                        Img={project.Img}
-                        Title={project.Title}
-                        Description={project.Description}
-                        Link={project.Link}
-                        id={project.id}
-                      />
-                    </PinContainer>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {projects.length > initialItems && (
-              <div className="mt-6 w-full flex justify-start">
-                <ToggleButton
-                  onClick={() => toggleShowMore('projects')}
-                  isShowingMore={showAllProjects}
-                />
-              </div>
-            )}
-          </TabPanel>
-
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            <div className="container mx-auto flex justify-center items-center overflow-hidden">
-              <div className="grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
-                {displayedCertificates.map((certificate, index) => (
-                  <div
-                    key={index}
-                    data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
-                    data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
-                  >
-                    <Certificate ImgSertif={certificate.Img} />
-                  </div>
-                ))}
-              </div>
-            </div>
-            {certificates.length > initialItems && (
-              <div className="mt-6 w-full flex justify-start">
-                <ToggleButton
-                  onClick={() => toggleShowMore('certificates')}
-                  isShowingMore={showAllCertificates}
-                />
-              </div>
-            )}
-          </TabPanel>
-
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            <div className="container mx-auto overflow-hidden pb-[5%]">
-              {/* Category navigation buttons */}
-              <div className="flex flex-wrap gap-3 mb-8 justify-center" data-aos="fade-down" data-aos-duration="800">
-                {Object.keys(categorizedTechStacks).map((category, index) => (
-                  <button 
-                    key={category}
-                    onClick={() => handleCategoryClick(index)}
-                    className={`
-                      px-4 py-2 rounded-xl text-sm md:text-base font-medium
-                      transition-all duration-300
-                      ${activeCategoryIndex === index 
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/20" 
-                        : "bg-slate-800/70 text-slate-300 hover:bg-slate-700/70 hover:text-white hover:scale-105"}
-                    `}
-                  >
-                    {category}
-                  </button>
-                ))}
-                {activeCategoryIndex !== null && (
-                  <button 
-                    onClick={() => setActiveCategoryIndex(null)}
-                    className="px-4 py-2 rounded-xl text-sm md:text-base font-medium
-                      transition-all duration-300 bg-slate-800/50 text-slate-400 hover:bg-slate-700/50 hover:text-white"
-                  >
-                    Show All
-                  </button>
-                )}
-              </div>
-              
-              {/* Display all categories or just the active one */}
-              {activeCategoryIndex === null ? (
-                // Show all categories with headers
-                <>
-                  {Object.entries(categorizedTechStacks).map(([category, stacks], categoryIndex) => (
-                    <div key={category} className="mb-10" data-aos="fade-up" data-aos-duration="1000" data-aos-delay={categoryIndex * 100}>
-                      <h3 className="text-xl md:text-2xl font-semibold text-white mb-4 pl-2 border-l-4 border-purple-500">
-                        {category}
-                      </h3>
-                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6 gap-4">
-                        {stacks.map((stack, index) => (
-                          <div
-                            key={index}
-                            data-aos="fade-up"
-                            data-aos-duration="800"
-                            data-aos-delay={(index % 6) * 100}
-                          >
-                            <TechStackIcon 
-                              TechStackIcon={stack.icon} 
-                              Language={stack.language}
-                              category={category}
-                            />
-                          </div>
-                        ))}
-                      </div>
+                      <PinContainer
+                        key={index}
+                        title={project.name}
+                        href={project.github || project.demo || "#"}
+                        className="w-full h-full"
+                      >
+                        <CardProject
+                          Img={project.Img}
+                          Title={project.Title}
+                          Description={project.Description}
+                          Link={project.Link}
+                          id={project.id}
+                        />
+                      </PinContainer>
                     </div>
                   ))}
-                </>
-              ) : (
-                // Show only the selected category
-                <div data-aos="fade-up" data-aos-duration="1000">
-                  <h3 className="text-xl md:text-2xl font-semibold text-white mb-6 pl-2 border-l-4 border-purple-500">
-                    {Object.keys(categorizedTechStacks)[activeCategoryIndex]}
-                  </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6 gap-4">
-                    {categorizedTechStacks[Object.keys(categorizedTechStacks)[activeCategoryIndex]].map((stack, index) => (
-                      <div
-                        key={index}
-                        data-aos="zoom-in"
-                        data-aos-duration="800"
-                        data-aos-delay={index * 100}
-                      >
-                        <TechStackIcon 
-                          TechStackIcon={stack.icon} 
-                          Language={stack.language}
-                          category={Object.keys(categorizedTechStacks)[activeCategoryIndex]}
-                        />
-                      </div>
-                    ))}
-                  </div>
+                </div>
+              </div>
+              {projects.length > initialItems && (
+                <div className="mt-6 w-full flex justify-start">
+                  <ToggleButton
+                    onClick={() => toggleShowMore('projects')}
+                    isShowingMore={showAllProjects}
+                  />
                 </div>
               )}
-            </div>
-          </TabPanel>
-        </SwipeableViews>
+            </TabPanel>
+          </SwiperSlide>
+
+          {/* Second Tab - Certificates */}
+          <SwiperSlide>
+            <TabPanel value={value} index={1} dir={theme.direction}>
+              <div className="container mx-auto flex justify-center items-center overflow-hidden">
+                <div className="grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
+                  {displayedCertificates.map((certificate, index) => (
+                    <div
+                      key={index}
+                      data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
+                      data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
+                    >
+                      <Certificate ImgSertif={certificate.Img} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {certificates.length > initialItems && (
+                <div className="mt-6 w-full flex justify-start">
+                  <ToggleButton
+                    onClick={() => toggleShowMore('certificates')}
+                    isShowingMore={showAllCertificates}
+                  />
+                </div>
+              )}
+            </TabPanel>
+          </SwiperSlide>
+
+          {/* Third Tab - Technical Skills */}
+          <SwiperSlide>
+            <TabPanel value={value} index={2} dir={theme.direction}>
+              <div className="container mx-auto overflow-hidden pb-[5%]">
+                {/* Category navigation buttons */}
+                <div className="flex flex-wrap gap-3 mb-8 justify-center" data-aos="fade-down" data-aos-duration="800">
+                  {Object.keys(categorizedTechStacks).map((category, index) => (
+                    <button 
+                      key={category}
+                      onClick={() => handleCategoryClick(index)}
+                      className={`
+                        px-4 py-2 rounded-xl text-sm md:text-base font-medium
+                        transition-all duration-300
+                        ${activeCategoryIndex === index 
+                          ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/20" 
+                          : "bg-slate-800/70 text-slate-300 hover:bg-slate-700/70 hover:text-white hover:scale-105"}
+                      `}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                  {activeCategoryIndex !== null && (
+                    <button 
+                      onClick={() => setActiveCategoryIndex(null)}
+                      className="px-4 py-2 rounded-xl text-sm md:text-base font-medium
+                        transition-all duration-300 bg-slate-800/50 text-slate-400 hover:bg-slate-700/50 hover:text-white"
+                    >
+                      Show All
+                    </button>
+                  )}
+                </div>
+                
+                {/* Display all categories or just the active one */}
+                {activeCategoryIndex === null ? (
+                  // Show all categories with headers
+                  <>
+                    {Object.entries(categorizedTechStacks).map(([category, stacks], categoryIndex) => (
+                      <div key={category} className="mb-10" data-aos="fade-up" data-aos-duration="1000" data-aos-delay={categoryIndex * 100}>
+                        <h3 className="text-xl md:text-2xl font-semibold text-white mb-4 pl-2 border-l-4 border-purple-500">
+                          {category}
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6 gap-4">
+                          {stacks.map((stack, index) => (
+                            <div
+                              key={index}
+                              data-aos="fade-up"
+                              data-aos-duration="800"
+                              data-aos-delay={(index % 6) * 100}
+                            >
+                              <TechStackIcon 
+                                TechStackIcon={stack.icon} 
+                                Language={stack.language}
+                                category={category}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  // Show only the selected category
+                  <div data-aos="fade-up" data-aos-duration="1000">
+                    <h3 className="text-xl md:text-2xl font-semibold text-white mb-6 pl-2 border-l-4 border-purple-500">
+                      {Object.keys(categorizedTechStacks)[activeCategoryIndex]}
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6 gap-4">
+                      {categorizedTechStacks[Object.keys(categorizedTechStacks)[activeCategoryIndex]].map((stack, index) => (
+                        <div
+                          key={index}
+                          data-aos="zoom-in"
+                          data-aos-duration="800"
+                          data-aos-delay={index * 100}
+                        >
+                          <TechStackIcon 
+                            TechStackIcon={stack.icon} 
+                            Language={stack.language}
+                            category={Object.keys(categorizedTechStacks)[activeCategoryIndex]}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </TabPanel>
+          </SwiperSlide>
+        </Swiper>
       </Box>
     </div>
   );
