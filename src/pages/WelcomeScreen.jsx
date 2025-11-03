@@ -112,13 +112,13 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                 transition={{ duration: 0.8 }}
               >
                 <a
-                  href="https://www.souresh.mondal.id"
+                  href="https://souresh-mondal-portfolio.vercel.app/"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-neon-pink text-white hover:scale-105 transition-transform duration-300 animate-pulse"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <Globe className="w-5 h-5 text-white" />
-                  https://souresh-mondal-portfolio.vercel.app/
+                  souresh-mondal-portfolio.vercel.app
                 </a>
               </motion.div>
             </div>
