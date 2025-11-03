@@ -118,7 +118,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                   rel="noopener noreferrer"
                 >
                   <Globe className="w-5 h-5 text-white" />
-                  www.souresh.mondal.id
+                  https://souresh-mondal-portfolio.vercel.app/
                 </a>
               </motion.div>
             </div>
