@@ -9,6 +9,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import CardProject from "../components/CardProject";
+import ProjectDetail from "../components/ProjectDetail";
 import TechStackIcon from "../components/TechStackIcon";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -369,6 +370,9 @@ export default function FullWidthTabs() {
                           Description={project.Description}
                           Link={project.Link}
                           id={project.id}
+                          
+                        />
+                        <ProjectDetail
                           github={project.github}
                           Features={project.Features}
                         />
