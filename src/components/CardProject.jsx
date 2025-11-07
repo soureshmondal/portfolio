@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 
-const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
+const CardProject = ({ Img, Title, Description, Link: ProjectLink, github, Features = [], id }) => {
   
   const handleLiveDemo = (e) => {
     if (!ProjectLink) {
@@ -44,13 +44,13 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
               {Description}
             </p>
 
-            /* {Features.length > 0 && (
+            {Features.length > 0 && (
               <ul className="text-xs text-slate-400 list-disc list-inside mt-2 space-y-1">
                 {Features.slice(0, 2).map((f, i) => (
                   <li key={i}>{f}</li>
                 ))}
               </ul>
-            )} */
+            )} 
 
             
             <div className="pt-4 flex items-center justify-between mt-auto">
@@ -69,7 +69,7 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
                 <span className="text-gray-500 text-sm">Demo Not Available</span>
               )}
 
-              /* {github ? (
+              {github ? (
                 <a
                   href={github}
                   target="_blank"
@@ -81,7 +81,7 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
                 </a>
               ) : (
                 <span className="text-gray-500 text-sm">GitHub N/A</span>
-              )} */
+              )}
 
               
               {id ? (
