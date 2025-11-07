@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 
-const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
+const CardProject = ({ Img, Title, Description, Link: ProjectLink, github, Features = [], id }) => {
   
   const handleLiveDemo = (e) => {
     if (!ProjectLink) {
@@ -43,6 +43,15 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
             <p className="text-white text-sm leading-relaxed line-clamp-2 flex-grow">
               {Description}
             </p>
+
+            {Features.length > 0 && (
+              <ul className="text-xs text-slate-400 list-disc list-inside mt-2 space-y-1">
+                {Features.slice(0, 2).map((f, i) => (
+                  <li key={i}>{f}</li>
+                ))}
+              </ul>
+            )}
+
             
             <div className="pt-4 flex items-center justify-between mt-auto">
               {ProjectLink ? (
@@ -59,6 +68,21 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
               ) : (
                 <span className="text-gray-500 text-sm">Demo Not Available</span>
               )}
+
+              {Github ? (
+                <a
+                  href={Github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-2 text-purple-400 hover:text-purple-300 transition-colors duration-200"
+                >
+                  <span className="text-sm font-medium">GitHub</span>
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              ) : (
+                <span className="text-gray-500 text-sm">GitHub N/A</span>
+              )}
+
               
               {id ? (
                 <Link
