@@ -44,13 +44,7 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, github, Featu
               {Description}
             </p>
 
-            {Features.length > 0 && (
-              <ul className="text-xs text-slate-400 list-disc list-inside mt-2 space-y-1">
-                {Features.slice(0, 2).map((f, i) => (
-                  <li key={i}>{f}</li>
-                ))}
-              </ul>
-            )} 
+            
 
             <div className="pt-4 flex items-center justify-between mt-auto">
               
