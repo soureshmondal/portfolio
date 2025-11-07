@@ -360,7 +360,7 @@ export default function FullWidthTabs() {
                       <PinContainer
                         key={index}
                         title={project.name}
-                        href={project.github || project.demo || "#"}
+                        
                         className="w-full h-full"
                       >
                         <CardProject
