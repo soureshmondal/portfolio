@@ -52,7 +52,8 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, github, Featu
               </ul>
             )} 
 
-            
+            <div className="pt-4 flex items-center justify-between mt-auto">
+              
             
 
               
