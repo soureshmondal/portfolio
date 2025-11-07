@@ -69,19 +69,7 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, github, Featu
                 <span className="text-gray-500 text-sm">Demo Not Available</span>
               )}
 
-              {github ? (
-                <a
-                  href={github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center space-x-2 text-purple-400 hover:text-purple-300 transition-colors duration-200"
-                >
-                  <span className="text-sm font-medium">GitHub</span>
-                  <ExternalLink className="w-4 h-4" />
-                </a>
-              ) : (
-                <span className="text-gray-500 text-sm">GitHub N/A</span>
-              )}
+              
 
               
               {id ? (
