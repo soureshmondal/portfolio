@@ -370,12 +370,11 @@ export default function FullWidthTabs() {
                           Description={project.Description}
                           Link={project.Link}
                           id={project.id}
-                          
-                        />
-                        <ProjectDetail
                           github={project.github}
                           Features={project.Features}
+                          
                         />
+                        
                       </PinContainer>
                     </div>
                   ))}
