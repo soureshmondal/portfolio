@@ -78,8 +78,8 @@ const ProjectStats = ({ project }) => {
   );
 };
 
-const handleGithubClick = (githubLink) => {
-  if (githubLink === 'Private') {
+const handleGithubClick = (github) => {
+  if (github === 'Private') {
     Swal.fire({
       icon: 'info',
       title: 'Source Code Private',
@@ -190,7 +190,7 @@ const ProjectDetails = () => {
                 </a>
 
                 <a
-                  href={project.Github}
+                  href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 bg-gradient-to-r from-purple-600/10 to-pink-600/10 hover:from-purple-600/20 hover:to-pink-600/20 text-purple-300 rounded-xl transition-all duration-300 border border-purple-500/20 hover:border-purple-500/40 backdrop-blur-xl overflow-hidden text-sm md:text-base"
