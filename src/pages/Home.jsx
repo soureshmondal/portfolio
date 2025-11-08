@@ -1,6 +1,6 @@
 import React from "react";
 import { FlipWords } from "../components/FlipWords";
-import ShapeBlur from "../components/ShapeBlur"; // adjust the path if needed
+import ShapeBlur from "./ShapeBlur"; // adjust the path if needed
 
 const Home = () => {
   return (
