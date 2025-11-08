@@ -8,12 +8,12 @@ const Background = () => {
       style={{ width: "100%", height: "100%", position: "fixed" }}
     >
       <Plasma
-        color="#ff6b35"
-        speed={0.6}
+        color="#b19eef"
+        speed={1.0}
         direction="forward"
-        scale={1.1}
-        opacity={0.8}
-        mouseInteractive={true}
+        scale={1.0}
+        opacity={1.0}
+        mouseInteractive={false}
       />
     </div>
   );
