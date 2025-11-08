@@ -20,10 +20,10 @@ const Home = () => {
         <ShapeBlur
           variation={0}
           pixelRatioProp={window.devicePixelRatio || 1}
-          shapeSize={0.5}
+          shapeSize={1.0}
           roundness={0.5}
           borderSize={0.05}
-          circleSize={0.5}
+          circleSize={0.25}
           circleEdge={1}
         />
       </div>
