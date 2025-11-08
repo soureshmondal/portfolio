@@ -1,5 +1,5 @@
 import React from "react";
-import LiquidEther from "./LiquidEther";
+import Plasma from "./Plasma";
 
 const Background = () => {
   return (
@@ -7,22 +7,13 @@ const Background = () => {
       className="fixed inset-0 -z-10"
       style={{ width: "100%", height: "100%", position: "fixed" }}
     >
-      <LiquidEther
-        colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
-        mouseForce={20}
-        cursorSize={100}
-        isViscous={false}
-        viscous={30}
-        iterationsViscous={32}
-        iterationsPoisson={32}
-        resolution={0.5}
-        isBounce={false}
-        autoDemo={true}
-        autoSpeed={0.5}
-        autoIntensity={2.2}
-        takeoverDuration={0.25}
-        autoResumeDelay={3000}
-        autoRampDuration={0.6}
+      <Plasma
+        color="#ff6b35"
+        speed={0.6}
+        direction="forward"
+        scale={1.1}
+        opacity={0.8}
+        mouseInteractive={true}
       />
     </div>
   );
