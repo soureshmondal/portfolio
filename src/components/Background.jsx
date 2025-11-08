@@ -1,20 +1,22 @@
-import React, { Suspense, lazy } from "react";
+import React from "react";
+import Plasma from "./Plasma";
 
-const Plasma = lazy(() => import("./Plasma"));
-
-const Background = () => (
-  <div className="fixed inset-0 -z-10">
-    <Suspense fallback={null}>
+const Background = () => {
+  return (
+    <div
+      className="fixed inset-0 -z-10"
+      style={{ width: "100%", height: "100%", position: "fixed" }}
+    >
       <Plasma
         color="#b19eef"
         speed={0.6}
         direction="forward"
-        scale={1.1}
+        scale={1.0}
         opacity={1.0}
-        mouseInteractive={fasle}
+        mouseInteractive={false}
       />
-    </Suspense>
-  </div>
-);
+    </div>
+  );
+};
 
 export default Background;
